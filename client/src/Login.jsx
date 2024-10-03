@@ -1,119 +1,3 @@
-// import React, { useState } from "react";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
-// import AppNavbar from "./assets/components/AppNavbar";
-// import { Link } from "react-router-dom";
-
-// const Login = () => {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [errorMessage, setErrorMessage] = useState(""); // Added state for error message
-//   const navigate = useNavigate();
-
-//   axios.defaults.withCredentials = true;
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     setErrorMessage(""); // Clear any previous error message
-//     axios
-//       .post("http://localhost:3000/login", { email, password }) // Removed `name` from request payload
-//       .then((result) => {
-//         console.log(result);
-//         if (result.data.message === "Success") {
-//           navigate(`/${result.data.email}`);
-//         }
-//       })
-//       .catch((err) => {
-//         if (err.response) {
-//           // The request was made and the server responded with a status code that falls out of the range of 2xx
-//           if (err.response.status === 401) {
-//             setErrorMessage("Incorrect password");
-//           } else if (err.response.status === 404) {
-//             setErrorMessage("User not found. Redirecting to Signup Page...");
-//             setTimeout(() => {
-//               navigate("/register");
-//             }, 5000); // Redirect after delay to show the error message
-//           } else {
-//             setErrorMessage(err.response.data);
-//           }
-//         } else if (err.request) {
-//           // The request was made but no response was received
-//           console.log(err.request);
-//           setErrorMessage("No response from the server. Please try again.");
-//         } else {
-//           // Something happened in setting up the request that triggered an Error
-//           console.log("Error", err.message);
-//           setErrorMessage("An error occurred. Please try again.");
-//         }
-//         console.log(err.config);
-//       });
-//   };
-
-//   return (
-//     <>
-//       <AppNavbar />
-//       <div className="container mt-5">
-//         <div className="row justify-content-center">
-//           <div className="col-md-6">
-//             <div className="card">
-//               <div className="card-body">
-//                 <h2 className="card-title text-center">Login</h2>
-//                 {errorMessage && ( // Conditional rendering of error message
-//                   <div className="alert alert-danger" role="alert">
-//                     {errorMessage}
-//                   </div>
-//                 )}
-//                 <form onSubmit={handleSubmit}>
-//                   <div className="form-group">
-//                     <label htmlFor="email">Email</label>
-//                     <input
-//                       type="email"
-//                       id="email"
-//                       name="email"
-//                       className="form-control"
-//                       placeholder="Enter your email"
-//                       onChange={(e) => setEmail(e.target.value)}
-//                       required // Added `required` attribute
-//                     />
-//                   </div>
-//                   <div className="form-group">
-//                     <label htmlFor="password">Password</label>
-//                     <input
-//                       type="password"
-//                       id="password"
-//                       name="password"
-//                       className="form-control"
-//                       placeholder="Enter your password"
-//                       onChange={(e) => setPassword(e.target.value)}
-//                       required // Added `required` attribute
-//                     />
-//                   </div>
-//                   <div className="d-flex justify-content-between">
-//                     <button
-//                       type="submit"
-//                       className="btn btn-primary btn-block mt-4"
-//                     >
-//                       Login
-//                     </button>
-//                     <Link
-//                       to="/register"
-//                       className="btn btn-secondary btn-block mt-4"
-//                     >
-//                       Sign up
-//                     </Link>
-//                   </div>
-//                 </form>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Login;
-
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -146,8 +30,14 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrorMessage("");
+
+    const baseURL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:3000"
+        : "https://tunesmusicapp.onrender.com";
+
     axios
-      .post("http://localhost:3000/login", { email, password })
+      .post(`${baseURL}/login`, { email, password })
       .then((result) => {
         if (result.data.message === "Success") {
           navigate(`/${result.data.email}`);
