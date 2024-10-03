@@ -410,7 +410,7 @@ app.get("/logout", (req, res) => {
 });
 
 // GET ALL USERS & THEIR DATA
-app.get("/users", verifyToken, (req, res) => {
+app.get("/users", (req, res) => {
   EmployeeModel.find({})
     .then((users) => {
       if (!users || users.length === 0) {
