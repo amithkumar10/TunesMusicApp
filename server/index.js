@@ -310,10 +310,10 @@ mongoose
 const app = express();
 app.use(express.json());
 app.use(
-  //Cross-Origin Resource Sharing (CORS)
+  // Cross-Origin Resource Sharing (CORS)
   cors({
-    origin: ["http://localhost:5173", "https://tunesmusicapp.onrender.com"],
-    credentials: true,
+    origin: ["http://localhost:5173", "https://your-deployed-frontend-url.com"],
+    credentials: true, // Enable sending of cookies
     methods: ["GET", "POST", "DELETE", "PUT"],
   })
 );
@@ -362,7 +362,11 @@ app.post("/login", (req, res) => {
                 expiresIn: "1d",
               }
             );
-            res.cookie("IAMIN", token, { httpOnly: true, secure: false });
+            res.cookie("IAMIN", token, {
+              httpOnly: true,
+              secure: false, // Set to true in production with HTTPS
+              sameSite: "None", // Required for cross-origin cookies
+            });
             res.json({ message: "Success", email: user.email });
           } else {
             res.status(401).json("Incorrect password");
@@ -407,146 +411,6 @@ app.get("/logout", (req, res) => {
     secure: false,
   });
   res.json("Logged out");
-});
-
-// GET ALL USERS & THEIR DATA
-app.get("/users", (req, res) => {
-  EmployeeModel.find({})
-    .then((users) => {
-      if (!users || users.length === 0) {
-        return res.status(404).json("No user found");
-      } else {
-        res.json(users);
-      }
-    })
-    .catch((err) => res.status(500).json("Error fetching user data"));
-});
-
-// GET USER
-app.get("/user", verifyToken, (req, res) => {
-  EmployeeModel.findById(
-    req.user.id,
-    "email name bio favouriteSongs likedSongs"
-  )
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json("User not found");
-      } else {
-        res.json({
-          email: user.email,
-          name: user.name,
-          bio: user.bio,
-          favouriteSongs: user.favouriteSongs,
-          likedSongs: user.likedSongs,
-        });
-      }
-    })
-    .catch((err) => res.status(500).json("Error fetching user data"));
-});
-
-// SEARCH USER ROUTE
-app.post("/searchUser", verifyToken, async (req, res) => {
-  const { query } = req.body;
-
-  try {
-    const user = await EmployeeModel.findOne(
-      {
-        $or: [{ email: query }, { name: { $regex: query, $options: "i" } }],
-      },
-      "name bio favouriteSongs likedSongs"
-    );
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: "Error searching for user" });
-  }
-});
-
-// UPDATE BIO ROUTE
-app.post("/updateBio", verifyToken, (req, res) => {
-  const { bio } = req.body;
-  EmployeeModel.findByIdAndUpdate(req.user.id, { bio: bio }, { new: true })
-    .then((user) => res.json(user))
-    .catch((err) => {
-      res.status(500).json("Error updating bio");
-    });
-});
-
-// ADD FAVOURITE SONGS ROUTE
-app.post("/addFavouriteSong", verifyToken, async (req, res) => {
-  const { songName, songLink } = req.body;
-
-  if (!songName || !songLink) {
-    return res.status(400).json("Song name and link are required.");
-  }
-
-  try {
-    const user = await EmployeeModel.findByIdAndUpdate(
-      req.user.id,
-      { $push: { favouriteSongs: { name: songName, link: songLink } } },
-      { new: true }
-    );
-
-    if (!user) {
-      return res.status(404).json("User not found.");
-    }
-
-    res.json(user);
-  } catch (err) {
-    res.status(500).json("Error adding favorite song");
-  }
-});
-
-// DELETE SONG
-app.delete("/deleteFavouriteSong", verifyToken, (req, res) => {
-  const { songId } = req.body;
-  EmployeeModel.findByIdAndUpdate(
-    req.user.id,
-    { $pull: { favouriteSongs: { _id: songId } } },
-    { new: true }
-  )
-    .then((user) => res.json(user))
-    .catch((err) => res.status(500).json(err));
-});
-
-// LIKED SONGS ROUTE
-app.post("/likedSong", verifyToken, async (req, res) => {
-  const { songName, songLink } = req.body;
-  try {
-    const user = await EmployeeModel.findById(req.user.id);
-    const songIndex = user.likedSongs.findIndex(
-      (song) => song.name === songName && song.link === songLink
-    );
-
-    if (songIndex > -1) {
-      user.likedSongs.splice(songIndex, 1);
-    } else {
-      user.likedSongs.push({ name: songName, link: songLink });
-    }
-
-    await user.save();
-    res.json(user);
-  } catch (err) {
-    res.status(500).json("Error toggling liked song");
-  }
-});
-
-// DELETE LIKED SONG
-app.delete("/deleteLikedSong", verifyToken, (req, res) => {
-  const { songId } = req.body;
-  EmployeeModel.findByIdAndUpdate(
-    req.user.id,
-    { $pull: { likedSongs: { _id: songId } } },
-    { new: true }
-  )
-    .then((user) => res.json(user))
-    .catch((err) => {
-      res.status(500).json("Error deleting liked song");
-    });
 });
 
 // SERVER LISTENING

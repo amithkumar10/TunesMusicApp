@@ -28,10 +28,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const baseURL =
-      window.location.hostname === "localhost"
-        ? "http://localhost:3000"
-        : "https://tunesmusicapp.onrender.com";
+    const baseURL = "https://tunesmusicapp.onrender.com";
 
     axios
       .post("`${baseURL}/register", { name, email, password })
