@@ -19,6 +19,50 @@ import {
 } from "@chakra-ui/react";
 import AppNavbar from "./assets/components/AppNavbar";
 
+// const Login = () => {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [errorMessage, setErrorMessage] = useState("");
+//   const navigate = useNavigate();
+
+//   axios.defaults.withCredentials = true;
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     setErrorMessage("");
+
+//     const baseURL =
+//       window.location.hostname === "localhost"
+//         ? "http://localhost:3000"
+//         : "https://tunesmusicapp.onrender.com";
+
+//     axios
+//       .post(`${baseURL}/login`, { email, password })
+//       .then((result) => {
+//         if (result.data.message === "Success") {
+//           navigate(`/${result.data.email}`);
+//         }
+//       })
+//       .catch((err) => {
+//         if (err.response) {
+//           if (err.response.status === 401) {
+//             setErrorMessage("Incorrect password");
+//           } else if (err.response.status === 404) {
+//             setErrorMessage("User not found. Redirecting to Signup Page...");
+//             setTimeout(() => {
+//               navigate("/register");
+//             }, 5000);
+//           } else {
+//             setErrorMessage(err.response.data);
+//           }
+//         } else if (err.request) {
+//           setErrorMessage("No response from the server. Please try again.");
+//         } else {
+//           setErrorMessage("An error occurred. Please try again.");
+//         }
+//       });
+//   };
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,14 +81,16 @@ const Login = () => {
         : "https://tunesmusicapp.onrender.com";
 
     axios
-      .post(`${baseURL}/login`, { email, password })
+      .post(`${baseURL}/login`, { email, password }, { timeout: 10000 }) // 10-second timeout
       .then((result) => {
         if (result.data.message === "Success") {
           navigate(`/${result.data.email}`);
         }
       })
       .catch((err) => {
-        if (err.response) {
+        if (err.code === "ECONNABORTED") {
+          setErrorMessage("Request timed out. Please try again.");
+        } else if (err.response) {
           if (err.response.status === 401) {
             setErrorMessage("Incorrect password");
           } else if (err.response.status === 404) {
