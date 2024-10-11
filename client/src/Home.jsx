@@ -16,9 +16,9 @@ const Home = () => {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    const baseURL = "https://tunesmusicapp.onrender.com";
+    // const baseURL = "https://tunesmusicapp.onrender.com";
     axios
-      .get(`${baseURL}`, { withCredentials: true })
+      .get("https://tunesmusicapp.onrender.com", { withCredentials: true })
       .then((result) => {
         if (result.data === "Success") {
           setAuthStatus("Authenticated");
