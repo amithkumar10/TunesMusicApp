@@ -16,9 +16,9 @@ const Home = () => {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    // Fetch user data to check if user is authenticated
+    const baseURL = "https://tunesmusicapp.onrender.com";
     axios
-      .get("http://localhost:3000/", { withCredentials: true })
+      .get(`${baseURL}`, { withCredentials: true })
       .then((result) => {
         if (result.data === "Success") {
           setAuthStatus("Authenticated");

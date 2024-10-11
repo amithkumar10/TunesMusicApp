@@ -31,7 +31,7 @@ const Signup = () => {
     const baseURL = "https://tunesmusicapp.onrender.com";
 
     axios
-      .post("`${baseURL}/register", { name, email, password })
+      .post(`${baseURL}/register`, { name, email, password })
       .then((result) => {
         if (result.data === "Duplicate Email") {
           setErrorMessage(

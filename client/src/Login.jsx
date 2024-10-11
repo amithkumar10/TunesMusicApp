@@ -30,10 +30,12 @@ const Login = () => {
     e.preventDefault();
     setErrorMessage("");
 
-    const baseURL =
-      window.location.hostname === "localhost"
-        ? "http://localhost:3000"
-        : "https://tunesmusicapp.onrender.com";
+    // const baseURL =
+    //   window.location.hostname === "localhost"
+    //     ? "http://localhost:3000"
+    //     : "https://tunesmusicapp.onrender.com";
+
+    const baseURL = "https://tunesmusicapp.onrender.com";
 
     axios
       .post(`${baseURL}/login`, { email, password })
