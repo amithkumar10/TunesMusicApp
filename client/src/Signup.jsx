@@ -28,7 +28,8 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const baseURL = "https://tunesmusicapp.onrender.com";
+    // const baseURL = "https://tunesmusicapp.onrender.com";
+    const baseURL = "http://localhost:3000";
 
     axios
       .post(`${baseURL}/register`, { name, email, password })
@@ -83,7 +84,7 @@ const Signup = () => {
               display={{ base: "none", md: "flex" }}
             >
               <Image
-                src="./last.png" // Replace with your image URL
+                src="./AuthIMG.png"
                 alt="Signup Illustration"
                 borderRadius="md"
                 h="35rem"

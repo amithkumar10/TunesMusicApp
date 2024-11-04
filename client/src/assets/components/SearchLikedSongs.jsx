@@ -154,7 +154,7 @@ const SearchLikedSongs = () => {
   }
 
   return (
-    <Container maxW="full">
+    <Container maxW="full" mb={20}>
       <Row className="mt-4 justify-content-center">
         <Col md={6}>
           <Box>

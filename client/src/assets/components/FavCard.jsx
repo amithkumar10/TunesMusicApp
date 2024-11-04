@@ -168,11 +168,13 @@ const FavCard = () => {
               <Input
                 value={newSongName}
                 onChange={(e) => setNewSongName(e.target.value)}
+                placeholder="Example: Heat Waves"
               />
               <FormLabel mt={4}>Song Link</FormLabel>
               <Input
                 value={newLink}
                 onChange={(e) => setNewLink(e.target.value)}
+                placeholder="Example: https://www.youtube.com/your-song-link"
               />
             </FormControl>
           </ModalBody>
@@ -222,8 +224,8 @@ const FavCard = () => {
                     src="/public/AlbumLogo.png"
                     alt="Logo"
                     rounded="md"
-                    boxSize="12" // Adjust size as needed
-                    mr={2} // Margin right to space out the logo from text
+                    boxSize="12"
+                    mr={2}
                   />
                   <Text fontSize="md" textColor="white" fontWeight="semibold">
                     {song.name}

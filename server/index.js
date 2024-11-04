@@ -188,6 +188,32 @@ app.post("/searchUser", verifyToken, async (req, res) => {
   }
 });
 
+//SUGGEST USERS
+app.post("/suggestUsers", verifyToken, async (req, res) => {
+  const { query } = req.body;
+
+  try {
+    // Find users whose names match the query (case-insensitive)
+    const users = await EmployeeModel.find(
+      {
+        name: { $regex: query, $options: "i" }, // Case-insensitive search for name
+      },
+      "name bio favouriteSongs likedSongs" // Specify fields to return
+    ).limit(5); // Limit results to 5 for performance
+
+    if (users.length === 0) {
+      console.log("No users found");
+      return res.status(404).json({ message: "No users found" });
+    }
+
+    console.log("Users found:", users);
+    res.json(users);
+  } catch (err) {
+    console.error("Error suggesting users:", err);
+    res.status(500).json({ message: "Error suggesting users" });
+  }
+});
+
 // UPDATE BIO ROUTE
 app.post("/updateBio", verifyToken, (req, res) => {
   const { bio } = req.body;
@@ -241,7 +267,7 @@ app.delete("/deleteFavouriteSong", verifyToken, (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
-// LIKED SONGS ROUTE
+// LIKED SONGS ROUTE (like/unlike a song)
 app.post("/likedSong", verifyToken, async (req, res) => {
   const { songName, songLink } = req.body;
   try {
@@ -259,7 +285,7 @@ app.post("/likedSong", verifyToken, async (req, res) => {
     }
 
     await user.save();
-    res.json(user);
+    res.json(user.likedSongs); // Return updated liked songs
   } catch (err) {
     console.error("Error toggling liked song:", err);
     res.status(500).json("Error toggling liked song");
@@ -268,18 +294,50 @@ app.post("/likedSong", verifyToken, async (req, res) => {
 
 //TO DELETE LIKED SONG
 app.delete("/deleteLikedSong", verifyToken, (req, res) => {
-  const { songId } = req.body; // songId should be sent from the frontend to identify the song to be removed
-
+  const { songId } = req.body;
   EmployeeModel.findByIdAndUpdate(
     req.user.id,
-    { $pull: { likedSongs: { _id: songId } } }, // Remove the song with the given songId
+    { $pull: { likedSongs: { _id: songId } } },
     { new: true }
   )
-    .then((user) => res.json(user)) // Return updated user data
+    .then((user) => res.json(user))
     .catch((err) => {
       console.error("Error deleting liked song:", err);
       res.status(500).json("Error deleting liked song");
     });
+});
+
+//EXPLORE
+//GENRES NAMES ONLY
+app.get("/api/genres", async (req, res) => {
+  try {
+    const response = await fetch("https://api.deezer.com/genre");
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch genres" });
+  }
+});
+
+//SONGS, ARTISTS & TOP CHARTS
+app.get("/api/songs", async (req, res) => {
+  try {
+    const response = await fetch("https://api.deezer.com/chart");
+    const data = await response.json();
+
+    const songs = data.tracks.data.slice(0, 10).map((song) => ({
+      id: song.id,
+      title: song.title,
+      link: song.preview,
+      artist: song.artist.name,
+      artistImg: song.artist.picture_xl,
+      albumCover: song.album.cover_xl,
+    }));
+
+    res.json(songs);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch songs" });
+  }
 });
 
 app.listen(3000, () => {

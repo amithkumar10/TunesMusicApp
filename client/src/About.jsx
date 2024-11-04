@@ -39,39 +39,51 @@ const About = () => {
               textAlign="center"
             >
               <VStack spacing={5}>
-                <Heading as="h1" size="xl">
+                <Heading as="h1" size={{ base: "lg", md: "xl" }}>
                   About This Website
                 </Heading>
-                <Text fontSize="lg">
-                  This website is a platform where users can log in, upload
-                  their favorite songs, search for friends' accounts, and like
-                  their friends' favorite songs. Built using modern web
-                  technologies, it provides a seamless and interactive
-                  experience for music enthusiasts.
+                <Text fontSize={{ base: "md", md: "lg" }}>
+                  This web app is a platform where users can log in, upload
+                  their favorite songs, and search for friends' accounts. Users
+                  can like their friends' favorite songs, explore music through
+                  various genres, view the top charts, and listen to their
+                  favorite artists. Built using modern web technologies, it
+                  provides a seamless and interactive experience for music
+                  enthusiasts.
                 </Text>
-                <Text fontSize="lg">
+                <Text fontSize={{ base: "md", md: "lg" }}>
                   <strong>Technologies Used:</strong> React, Node.js, Express,
                   MongoDB, React-Bootstrap, Chakra UI
                 </Text>
-                <HStack spacing={5} mt={5}>
-                  <Link
-                    href="https://github.com/amithkumar10/TunesApp"
-                    isExternal
+                <HStack
+                  justify={{ base: "center", md: "space-between" }}
+                  width="full"
+                  flexDirection={{ base: "column", md: "row" }}
+                >
+                  <Text
+                    fontFamily="'Open Sans', sans-serif"
+                    fontSize={{ base: "16px", md: "20px" }}
+                    textAlign={{ base: "center", md: "right" }}
                   >
-                    <Icon as={FaGithub} w={10} h={10} color={iconColor} />
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/in/amithkumar-p-radhakrishnan-7179b8283/"
-                    isExternal
-                  >
-                    <Icon as={FaLinkedin} w={10} h={10} color={iconColor} />
-                  </Link>
-                  <Link
-                    href="https://www.instagram.com/amithkumar_10/"
-                    isExternal
-                  >
-                    <Icon as={FaInstagram} w={10} h={10} color={iconColor} />
-                  </Link>
+                    ~Amithkumar P Radhakrishnan
+                  </Text>
+                  <HStack spacing={5} mt={5}>
+                    <Link href="https://github.com/amithkumar10" isExternal>
+                      <Icon as={FaGithub} w={8} h={8} color={iconColor} />
+                    </Link>
+                    <Link
+                      href="https://www.linkedin.com/in/amithkumar-p-radhakrishnan-7179b8283/"
+                      isExternal
+                    >
+                      <Icon as={FaLinkedin} w={8} h={8} color={iconColor} />
+                    </Link>
+                    <Link
+                      href="https://www.instagram.com/amithkumar_10/"
+                      isExternal
+                    >
+                      <Icon as={FaInstagram} w={8} h={8} color={iconColor} />
+                    </Link>
+                  </HStack>
                 </HStack>
               </VStack>
             </Box>

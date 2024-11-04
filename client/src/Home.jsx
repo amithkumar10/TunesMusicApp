@@ -16,9 +16,9 @@ const Home = () => {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    // const baseURL = "https://tunesmusicapp.onrender.com";
     axios
-      .get("https://tunesmusicapp.onrender.com", { withCredentials: true })
+      // .get("https://tunesmusicapp.onrender.com/", { withCredentials: true })
+      .get("http://localhost:3000/", { withCredentials: true })
       .then((result) => {
         if (result.data === "Success") {
           setAuthStatus("Authenticated");
@@ -49,9 +49,14 @@ const Home = () => {
   }
 
   return (
-    <Box bgGradient="linear(to-r, black, gray.800)" minHeight="100vh">
+    <Box
+      bgGradient="linear(to-r, black, gray.800)"
+      minHeight="100vh"
+      justifyContent="center"
+      overflowX="hidden"
+    >
       <AppNavbar />
-      <Container border="none" maxW="100%">
+      <Container maxW="100%" px={{ base: 4, md: 8 }}>
         <Profile />
         <FavouriteSongs />
         <LikedSongs />

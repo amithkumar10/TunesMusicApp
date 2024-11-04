@@ -1,9 +1,14 @@
-// Theme.jsx
 import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
   styles: {
     global: {
+      // Disable horizontal scrolling
+      "@media (max-width: 768px)": {
+        body: {
+          overflowX: "hidden",
+        },
+      },
       // Custom scrollbar styles
       "::-webkit-scrollbar": {
         width: "8px",

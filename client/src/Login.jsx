@@ -30,7 +30,8 @@ const Login = () => {
     e.preventDefault();
     setErrorMessage("");
 
-    const baseURL = "https://tunesmusicapp.onrender.com";
+    // const baseURL = "https://tunesmusicapp.onrender.com";
+    const baseURL = "http://localhost:3000";
 
     axios
       .post(`${baseURL}/login`, { email, password })
@@ -80,7 +81,7 @@ const Login = () => {
               display={{ base: "none", md: "flex" }}
             >
               <Image
-                src="./last.png"
+                src="./AuthIMG.png"
                 alt="Login Illustration"
                 borderRadius="md"
                 mb={4}

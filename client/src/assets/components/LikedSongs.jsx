@@ -78,7 +78,7 @@ const LikedSongs = () => {
         </Row>
       </Box>
 
-      <Flex direction="column" align="center">
+      <Flex direction="column" align="center" mb={20}>
         {isLoading ? (
           <Skeleton height="4rem" width={{ base: "full", md: "55%" }} />
         ) : likedSongs.length > 0 ? (
