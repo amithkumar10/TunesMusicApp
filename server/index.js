@@ -24,8 +24,7 @@ app.use(express.json());
 app.use(
   //Cross-Origin Resource Sharing (CORS)
   cors({
-    // origin: ["http://localhost:5173"],
-    origin: "*",
+    origin: ["http://localhost:5173"],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"],
   })
