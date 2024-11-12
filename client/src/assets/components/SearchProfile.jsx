@@ -13,14 +13,17 @@ const SearchProfile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/searchUser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ query: email }),
-        });
+        const response = await fetch(
+          `https://tunesmusicapp.onrender.com/searchUser`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ query: email }),
+          }
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

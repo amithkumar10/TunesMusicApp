@@ -21,7 +21,7 @@ const SearchFavSongs = () => {
     const song = userData.favouriteSongs[index];
 
     try {
-      await fetch("http://localhost:3000/likedSong", {
+      await fetch("https://tunesmusicapp.onrender.com/likedSong", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,26 +40,32 @@ const SearchFavSongs = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/searchUser", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ query: email }),
-        });
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/searchUser",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ query: email }),
+          }
+        );
         const data = await response.json();
         setUserData(data);
 
         if (data.favouriteSongs) {
           // Fetch the logged-in user's liked songs to set the initial liked state
-          const userResponse = await fetch("http://localhost:3000/user", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          });
+          const userResponse = await fetch(
+            "https://tunesmusicapp.onrender.com/user",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+            }
+          );
           const userData = await userResponse.json();
           const likedSongs = userData.likedSongs || [];
 
@@ -88,12 +94,6 @@ const SearchFavSongs = () => {
       <Container maxW="full">
         <Row className="mt-4 justify-content-center">
           <Col md={8}>
-            {/* <Card style={{ border: "none" }}>
-              <Card.Title>
-                <h3>Favourite Songs</h3>
-              </Card.Title>
-              <Card.Body>No Favourite Songs</Card.Body>
-            </Card> */}
             <Box ml={{ md: "7rem" }} my={{ md: "8rem" }}>
               <Box>
                 <Text

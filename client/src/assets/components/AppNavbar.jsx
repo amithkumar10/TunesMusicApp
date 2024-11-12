@@ -41,9 +41,12 @@ const AppNavbar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/user", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/user",
+          {
+            credentials: "include",
+          }
+        );
         const data = await response.json();
         setEmail(data.email);
       } catch (error) {
@@ -70,7 +73,7 @@ const AppNavbar = () => {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:3000/searchUser",
+        "https://tunesmusicapp.onrender.com/searchUser",
         { query: searchQuery },
         { withCredentials: true }
       )
@@ -90,7 +93,9 @@ const AppNavbar = () => {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:3000/logout", { withCredentials: true })
+      .get("https://tunesmusicapp.onrender.com/logout", {
+        withCredentials: true,
+      })
       .then(() => {
         navigate("/login");
       })
@@ -104,7 +109,7 @@ const AppNavbar = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3000/suggestUsers",
+        "https://tunesmusicapp.onrender.com/suggestUsers",
         { query },
         { withCredentials: true }
       );
