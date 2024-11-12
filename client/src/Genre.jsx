@@ -38,7 +38,7 @@ const Genre = () => {
       setIsLoading(true); // Set loading to true when fetching starts
       try {
         const response = await fetch(
-          `http://localhost:3000/api/songs?genre=${genreName}`
+          `https://tunesmusicapp.onrender.com/api/songs?genre=${genreName}`
         );
         const data = await response.json();
         setSongs(data); // Adjust according to your API response structure
@@ -64,19 +64,22 @@ const Genre = () => {
       let response;
       if (isLiked) {
         // Unlike the song
-        response = await fetch("http://localhost:3000/deleteLikedSong", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            songId: song._id, // Use the song's unique ID
-          }),
-        });
+        response = await fetch(
+          "https://tunesmusicapp.onrender.com/deleteLikedSong",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              songId: song._id, // Use the song's unique ID
+            }),
+          }
+        );
       } else {
         // Like the song
-        response = await fetch("http://localhost:3000/likedSong", {
+        response = await fetch("https://tunesmusicapp.onrender.com/likedSong", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

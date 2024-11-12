@@ -36,7 +36,9 @@ const FilteredGenres = () => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/genres");
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/api/genres"
+        );
         const data = await response.json();
         setGenres(data.data.slice(1, 4)); // Fetch only the 2nd, 3rd, and 4th genres
       } catch (error) {

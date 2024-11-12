@@ -26,7 +26,9 @@ const FilterArtists = () => {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/songs");
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/api/songs"
+        );
         const data = await response.json();
         if (location.pathname === "/explore") {
           setArtists(data.slice(5, 10)); // Fetch only the first 3 songs on /explore

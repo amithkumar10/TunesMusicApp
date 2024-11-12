@@ -24,7 +24,9 @@ const FilterCharts = () => {
   useEffect(() => {
     const fetchCharts = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/songs");
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/api/songs"
+        );
         const data = await response.json();
 
         // Check if the current route is "/explore"
