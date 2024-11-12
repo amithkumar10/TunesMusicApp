@@ -10,15 +10,14 @@ import Footer from "./assets/components/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { email } = useParams();
   const [authStatus, setAuthStatus] = useState(null);
 
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     axios
-      // .get("https://tunesmusicapp.onrender.com/", { withCredentials: true })
-      .get("http://localhost:3000/", { withCredentials: true })
+      .get("https://tunesmusicapp.onrender.com/", { withCredentials: true })
+      // .get("http://localhost:3000/", { withCredentials: true })
       .then((result) => {
         if (result.data === "Success") {
           setAuthStatus("Authenticated");

@@ -58,6 +58,40 @@ app.post("/register", (req, res) => {
 });
 
 // LOGIN ROUTE
+// app.post("/login", (req, res) => {
+//   const { email, password } = req.body;
+//   EmployeeModel.findOne({ email: email })
+//     .then((user) => {
+//       if (user) {
+//         bcrypt.compare(password, user.password, (err, response) => {
+//           if (err) {
+//             console.error("Error comparing passwords:", err);
+//             res.status(500).json("Error comparing passwords");
+//           } else if (response) {
+//             const token = jwt.sign(
+//               { email: user.email, id: user._id },
+//               secret,
+//               {
+//                 expiresIn: "1d",
+//               }
+//             );
+//             res.cookie("IAMIN", token, { httpOnly: true, secure: false });
+//             res.json({ message: "Success", email: user.email });
+//           } else {
+//             res.status(401).json("Incorrect password"); // Return status 401 for incorrect password
+//           }
+//         });
+//       } else {
+//         res.status(404).json("User not found"); // Return status 404 for user not found
+//       }
+//     })
+//     .catch((err) => {
+//       console.error("Error finding user:", err);
+//       res.status(500).json("Error finding user");
+//     });
+// });
+
+// LOGIN ROUTE
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   EmployeeModel.findOne({ email: email })
@@ -75,7 +109,12 @@ app.post("/login", (req, res) => {
                 expiresIn: "1d",
               }
             );
-            res.cookie("IAMIN", token, { httpOnly: true, secure: false });
+            // Set the cookie with SameSite=None and Secure=true
+            res.cookie("IAMIN", token, {
+              httpOnly: true,
+              secure: true, // Set to true for cross-origin requests
+              sameSite: "None", // Required for cross-origin cookies
+            });
             res.json({ message: "Success", email: user.email });
           } else {
             res.status(401).json("Incorrect password"); // Return status 401 for incorrect password

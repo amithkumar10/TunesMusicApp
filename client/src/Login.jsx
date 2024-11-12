@@ -15,7 +15,6 @@ import {
   Image,
   Alert,
   AlertIcon,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 
 const Login = () => {
@@ -30,13 +29,14 @@ const Login = () => {
     e.preventDefault();
     setErrorMessage("");
 
-    // const baseURL = "https://tunesmusicapp.onrender.com";
-    const baseURL = "http://localhost:3000";
+    const baseURL = "https://tunesmusicapp.onrender.com";
+    // const baseURL = "http://localhost:3000";
 
     axios
       .post(`${baseURL}/login`, { email, password })
       .then((result) => {
         if (result.data.message === "Success") {
+          console.log("Login in Successful");
           navigate(`/${result.data.email}`);
         }
       })
