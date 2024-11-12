@@ -27,9 +27,12 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/user", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/user",
+          {
+            credentials: "include",
+          }
+        );
         const data = await response.json();
         setUsername(data.name);
         setBio(data.bio);
@@ -49,14 +52,17 @@ const Profile = () => {
 
   const handleSaveBio = async () => {
     try {
-      const response = await fetch("http://localhost:3000/updateBio", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ bio: newBio }),
-      });
+      const response = await fetch(
+        "https://tunesmusicapp.onrender.com/updateBio",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ bio: newBio }),
+        }
+      );
       if (response.ok) {
         setBio(newBio);
         setShowModal(false);

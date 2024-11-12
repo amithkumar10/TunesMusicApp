@@ -21,9 +21,12 @@ const LikedSongs = () => {
   useEffect(() => {
     const fetchLikedSongs = async () => {
       try {
-        const response = await fetch("http://localhost:3000/user", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/user",
+          {
+            credentials: "include",
+          }
+        );
         const data = await response.json();
         setLikedSongs(data.likedSongs || []);
       } catch (err) {
@@ -41,16 +44,19 @@ const LikedSongs = () => {
   const handleDelete = async (index) => {
     try {
       const songToDelete = likedSongs[index];
-      const response = await fetch("http://localhost:3000/deleteLikedSong", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          songId: songToDelete._id,
-        }),
-      });
+      const response = await fetch(
+        "https://tunesmusicapp.onrender.com/deleteLikedSong",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            songId: songToDelete._id,
+          }),
+        }
+      );
       if (response.ok) {
         const updatedSongs = likedSongs.filter((_, i) => i !== index);
         setLikedSongs(updatedSongs);

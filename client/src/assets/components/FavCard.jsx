@@ -35,9 +35,12 @@ const FavCard = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/user", {
-          credentials: "include",
-        });
+        const response = await fetch(
+          "https://tunesmusicapp.onrender.com/user",
+          {
+            credentials: "include",
+          }
+        );
         const data = await response.json();
         setSongs(data.favouriteSongs);
       } catch (err) {
@@ -54,17 +57,20 @@ const FavCard = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("http://localhost:3000/addFavouriteSong", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          songName: newSongName,
-          songLink: newLink,
-        }),
-      });
+      const response = await fetch(
+        "https://tunesmusicapp.onrender.com/addFavouriteSong",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            songName: newSongName,
+            songLink: newLink,
+          }),
+        }
+      );
       if (response.ok) {
         const newSong = { name: newSongName, link: newLink };
         setSongs([...songs, newSong]);
@@ -81,7 +87,7 @@ const FavCard = () => {
     try {
       const songToDelete = songs[index];
       const response = await fetch(
-        "http://localhost:3000/deleteFavouriteSong",
+        "https://tunesmusicapp.onrender.com/deleteFavouriteSong",
         {
           method: "DELETE",
           headers: {
