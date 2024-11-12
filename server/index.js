@@ -24,7 +24,8 @@ app.use(express.json());
 app.use(
   //Cross-Origin Resource Sharing (CORS)
   cors({
-    origin: ["http://localhost:5173"],
+    // origin: ["http://localhost:5173"],
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"],
   })
@@ -348,34 +349,83 @@ app.delete("/deleteLikedSong", verifyToken, (req, res) => {
 
 //EXPLORE
 //GENRES NAMES ONLY
+// app.get("/api/genres", async (req, res) => {
+//   try {
+//     const response = await fetch("https://api.deezer.com/genre");
+//     const data = await response.json();
+//     res.json(data);
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to fetch genres" });
+//   }
+// });
+
+// //SONGS, ARTISTS & TOP CHARTS
+// app.get("/api/songs", async (req, res) => {
+//   try {
+//     const response = await fetch("https://api.deezer.com/chart");
+//     const data = await response.json();
+
+//     const songs = data.tracks.data.slice(0, 10).map((song) => ({
+//       id: song.id,
+//       title: song.title,
+//       link: song.preview,
+//       artist: song.artist.name,
+//       artistImg: song.artist.picture_xl,
+//       albumCover: song.album.cover_xl,
+//     }));
+
+//     res.json(songs);
+//   } catch (error) {
+//     console.error("Error during Deezer API request:", error.message);
+//     res.status(500).json({ error: "Failed to fetch songs" });
+//   }
+// });
+
 app.get("/api/genres", async (req, res) => {
   try {
     const response = await fetch("https://api.deezer.com/genre");
+    if (!response.ok) {
+      // If the response is not ok, throw an error
+      throw new Error(`Deezer API responded with status: ${response.status}`);
+    }
     const data = await response.json();
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch genres" });
+    console.error("Error during Deezer API request:", error.message);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch genres", message: error.message });
   }
 });
 
-//SONGS, ARTISTS & TOP CHARTS
+// API to get songs
 app.get("/api/songs", async (req, res) => {
   try {
     const response = await fetch("https://api.deezer.com/chart");
+    if (!response.ok) {
+      throw new Error(`Deezer API responded with status: ${response.status}`);
+    }
     const data = await response.json();
 
-    const songs = data.tracks.data.slice(0, 10).map((song) => ({
-      id: song.id,
-      title: song.title,
-      link: song.preview,
-      artist: song.artist.name,
-      artistImg: song.artist.picture_xl,
-      albumCover: song.album.cover_xl,
-    }));
+    if (data.tracks && data.tracks.data) {
+      const songs = data.tracks.data.slice(0, 10).map((song) => ({
+        id: song.id,
+        title: song.title,
+        link: song.preview,
+        artist: song.artist.name,
+        artistImg: song.artist.picture_xl,
+        albumCover: song.album.cover_xl,
+      }));
 
-    res.json(songs);
+      res.json(songs);
+    } else {
+      throw new Error("Invalid response structure from Deezer API");
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch songs" });
+    console.error("Error during Deezer API request:", error.message);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch songs", message: error.message });
   }
 });
 
