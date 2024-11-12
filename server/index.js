@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(
   //Cross-Origin Resource Sharing (CORS)
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://tunes-music-app.vercel.app/"],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"],
   })
