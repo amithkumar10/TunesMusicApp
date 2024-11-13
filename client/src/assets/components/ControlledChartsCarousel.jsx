@@ -15,7 +15,7 @@ function ControlledChartsCarousel({ charts }) {
         <Carousel.Item key={chart.id}>
           <ChartCard
             songTitle={chart.title}
-            artist={chart.artist}
+            artist={chart.artistName}
             coverImage={chart.albumCover}
             onClick={() => {
               window.open(chart.link, "_blank");

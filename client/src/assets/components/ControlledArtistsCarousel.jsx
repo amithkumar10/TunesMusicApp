@@ -14,7 +14,7 @@ function ControlledArtistsCarousel({ artists }) {
       {artists.map((artist) => (
         <Carousel.Item key={artist.id}>
           <ArtistCard
-            artistName={artist.artist}
+            artistName={artist.artistName}
             coverImage={artist.artistImg}
           />
         </Carousel.Item>
