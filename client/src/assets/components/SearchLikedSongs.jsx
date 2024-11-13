@@ -197,6 +197,13 @@ const SearchLikedSongs = () => {
                       height="4rem"
                     >
                       <Flex className="d-flex justify-content-between">
+                        <Image
+                          src="/AlbumLogo.png"
+                          alt="Logo"
+                          rounded="md"
+                          boxSize="12"
+                          mr={2}
+                        />
                         <Text
                           fontSize="md"
                           textColor="white"
