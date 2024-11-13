@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import {
   Container,
+  Image,
   Box,
   Text,
   Flex,
