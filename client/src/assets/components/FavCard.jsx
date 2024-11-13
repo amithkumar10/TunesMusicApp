@@ -227,7 +227,7 @@ const FavCard = () => {
               >
                 <Flex align="center" gap={2}>
                   <Image
-                    src="/public/AlbumLogo.png"
+                    src="/AlbumLogo.png"
                     alt="Logo"
                     rounded="md"
                     boxSize="12"
