@@ -31,7 +31,7 @@ const GenreCard = ({ genre, coverImage, onClick }) => {
         right={12} // Position the text from the left
         textShadow="1px 1px 2px rgba(0, 0, 0, 0.8)" // Optional: Add a shadow for better visibility
       >
-        {genre.name}
+        {genre}
       </Text>
     </Box>
   );

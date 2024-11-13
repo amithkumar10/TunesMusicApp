@@ -38,7 +38,8 @@ const ChartCard = ({ songTitle, artist, coverImage, onClick }) => {
       </Text>
       <Text
         fontSize={20}
-        textColor="gray.300"
+        textColor="gray.100"
+        fontWeight={400}
         position="absolute"
         bottom={4} // Position artist name below the title
         left={4}

@@ -2,6 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import EmployeeModel from "./models/Employee.js";
+import ArtistModel from "./models/artist.js";
+import SongModel from "./models/song.js";
+import GenreModel from "./models/genre.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -24,7 +27,8 @@ app.use(express.json());
 app.use(
   //Cross-Origin Resource Sharing (CORS)
   cors({
-    origin: ["https://tunes-music-app.vercel.app"],
+    // origin: ["https://tunes-music-app.vercel.app"],
+    origin: ["http://localhost:5173", "https://tunes-music-app.vercel.app"],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"],
   })
@@ -56,40 +60,6 @@ app.post("/register", (req, res) => {
       res.status(500).json("Error hashing password");
     });
 });
-
-// LOGIN ROUTE
-// app.post("/login", (req, res) => {
-//   const { email, password } = req.body;
-//   EmployeeModel.findOne({ email: email })
-//     .then((user) => {
-//       if (user) {
-//         bcrypt.compare(password, user.password, (err, response) => {
-//           if (err) {
-//             console.error("Error comparing passwords:", err);
-//             res.status(500).json("Error comparing passwords");
-//           } else if (response) {
-//             const token = jwt.sign(
-//               { email: user.email, id: user._id },
-//               secret,
-//               {
-//                 expiresIn: "1d",
-//               }
-//             );
-//             res.cookie("IAMIN", token, { httpOnly: true, secure: false });
-//             res.json({ message: "Success", email: user.email });
-//           } else {
-//             res.status(401).json("Incorrect password"); // Return status 401 for incorrect password
-//           }
-//         });
-//       } else {
-//         res.status(404).json("User not found"); // Return status 404 for user not found
-//       }
-//     })
-//     .catch((err) => {
-//       console.error("Error finding user:", err);
-//       res.status(500).json("Error finding user");
-//     });
-// });
 
 // LOGIN ROUTE
 app.post("/login", (req, res) => {
@@ -346,85 +316,72 @@ app.delete("/deleteLikedSong", verifyToken, (req, res) => {
     });
 });
 
-//EXPLORE
-//GENRES NAMES ONLY
-// app.get("/api/genres", async (req, res) => {
-//   try {
-//     const response = await fetch("https://api.deezer.com/genre");
-//     const data = await response.json();
-//     res.json(data);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to fetch genres" });
-//   }
-// });
-
-// //SONGS, ARTISTS & TOP CHARTS
-// app.get("/api/songs", async (req, res) => {
-//   try {
-//     const response = await fetch("https://api.deezer.com/chart");
-//     const data = await response.json();
-
-//     const songs = data.tracks.data.slice(0, 10).map((song) => ({
-//       id: song.id,
-//       title: song.title,
-//       link: song.preview,
-//       artist: song.artist.name,
-//       artistImg: song.artist.picture_xl,
-//       albumCover: song.album.cover_xl,
-//     }));
-
-//     res.json(songs);
-//   } catch (error) {
-//     console.error("Error during Deezer API request:", error.message);
-//     res.status(500).json({ error: "Failed to fetch songs" });
-//   }
-// });
-
-app.get("/api/genres", async (req, res) => {
+// EXPLORE PAGE
+// Get all artists
+app.get("/artists", async (req, res) => {
   try {
-    const response = await fetch("https://api.deezer.com/genre");
-    if (!response.ok) {
-      // If the response is not ok, throw an error
-      throw new Error(`Deezer API responded with status: ${response.status}`);
-    }
-    const data = await response.json();
-    res.json(data);
+    const artists = await ArtistModel.find(); // Fetch all artists
+    res.status(200).json(artists); // Send the data as response
   } catch (error) {
-    console.error("Error during Deezer API request:", error.message);
-    res
-      .status(500)
-      .json({ error: "Failed to fetch genres", message: error.message });
+    res.status(500).json({ message: "Error fetching artists", error });
   }
 });
 
-// API to get songs
-app.get("/api/songs", async (req, res) => {
+// Get all genres
+app.get("/genres", async (req, res) => {
   try {
-    const response = await fetch("https://api.deezer.com/chart");
-    if (!response.ok) {
-      throw new Error(`Deezer API responded with status: ${response.status}`);
-    }
-    const data = await response.json();
-
-    if (data.tracks && data.tracks.data) {
-      const songs = data.tracks.data.slice(0, 10).map((song) => ({
-        id: song.id,
-        title: song.title,
-        link: song.preview,
-        artist: song.artist.name,
-        artistImg: song.artist.picture_xl,
-        albumCover: song.album.cover_xl,
-      }));
-
-      res.json(songs);
-    } else {
-      throw new Error("Invalid response structure from Deezer API");
-    }
+    const genres = await GenreModel.find(); // Fetch all genres
+    res.status(200).json(genres); // Send the data as response
   } catch (error) {
-    console.error("Error during Deezer API request:", error.message);
-    res
-      .status(500)
-      .json({ error: "Failed to fetch songs", message: error.message });
+    res.status(500).json({ message: "Error fetching genres", error });
+  }
+});
+
+// Get all songs
+app.get("/songs", async (req, res) => {
+  try {
+    const songs = await SongModel.find(); // Fetch all songs
+    res.status(200).json(songs); // Send the data as response
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching songs", error });
+  }
+});
+
+// Get songs by artist name
+app.get("/artists/:artistName", async (req, res) => {
+  try {
+    const artistName = req.params.artistName;
+    console.log("Looking for artist:", artistName); // Debug log
+
+    const artist = await ArtistModel.findOne({ name: artistName });
+
+    if (!artist) {
+      return res.status(404).json({ message: "Artist not found" });
+    }
+
+    res.status(200).json(artist);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// Get songs by genre name
+app.get("/genre/:genreName", async (req, res) => {
+  try {
+    const genreName = req.params.genreName;
+    console.log("Looking for genre:", genreName); // Debug log
+
+    const genre = await GenreModel.findOne({ name: genreName });
+
+    if (!genre) {
+      return res.status(404).json({ message: "Genre not found" });
+    }
+
+    res.status(200).json(genre); // Send the songs associated with this genre
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

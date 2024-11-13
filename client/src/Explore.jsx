@@ -30,9 +30,9 @@ const Explore = () => {
         px={5}
         minHeight="100vh"
       >
-        {/* <FilterCharts />
-        <FilterArtists /> */}
-        <FilteredGenres />
+        <FilterCharts />
+        <FilterArtists />
+        {/* <FilteredGenres /> */}
       </Box>
       <Footer />
     </>

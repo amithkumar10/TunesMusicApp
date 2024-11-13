@@ -27,11 +27,11 @@ const FilterArtists = () => {
     const fetchArtists = async () => {
       try {
         const response = await fetch(
-          "https://tunesmusicapp.onrender.com/api/songs"
+          "https://tunesmusicapp.onrender.com/songs"
         );
         const data = await response.json();
         if (location.pathname === "/explore") {
-          setArtists(data.slice(5, 10)); // Fetch only the first 3 songs on /explore
+          setArtists(data.slice(0, 5)); // Fetch only the first 3 songs on /explore
         } else {
           setArtists(data); // Fetch all data on other routes
         }
@@ -92,10 +92,10 @@ const FilterArtists = () => {
                 ))
               : artists.map((artist) => (
                   <ArtistCard
-                    key={artist.id}
-                    artistName={artist.artist}
+                    key={artist.artistId}
+                    artistName={artist.artistName}
                     coverImage={artist.artistImg}
-                    songLink={artist.link}
+                    songLink={artist.previewLink}
                     isMobile={isMobile} // Pass isMobile prop
                   />
                 ))}

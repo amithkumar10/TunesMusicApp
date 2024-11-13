@@ -25,7 +25,7 @@ const FilterCharts = () => {
     const fetchCharts = async () => {
       try {
         const response = await fetch(
-          "https://tunesmusicapp.onrender.com/api/songs"
+          "https://tunesmusicapp.onrender.com/songs"
         );
         const data = await response.json();
 
@@ -56,7 +56,7 @@ const FilterCharts = () => {
       >
         Top Charts
       </Text>
-      {location.pathname == "/explore" ? (
+      {location.pathname === "/explore" && (
         <Text
           textAlign="right"
           mr={20}
@@ -67,7 +67,7 @@ const FilterCharts = () => {
         >
           Show all
         </Text>
-      ) : null}
+      )}
 
       <Box mt={0} px={10}>
         {isMobile ? (
@@ -100,12 +100,12 @@ const FilterCharts = () => {
                 ))
               : charts.map((chart) => (
                   <ChartCard
-                    key={chart.id}
+                    key={chart._id} // Use _id from the API response
                     songTitle={chart.title}
-                    artist={chart.artist}
                     coverImage={chart.albumCover}
+                    artist={chart.artistName}
                     onClick={() => {
-                      window.open(chart.link, "_blank");
+                      window.open(chart.previewLink, "_blank"); // Use previewLink for song link
                     }}
                   />
                 ))}
