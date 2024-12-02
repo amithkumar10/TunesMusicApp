@@ -10,9 +10,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/login");
+  };
   return (
     <Box
       minH="100vh"
@@ -70,9 +75,7 @@ const LandingPage = () => {
               _hover={{ bg: "whiteAlpha.200" }}
               rightIcon={<ArrowForwardIcon />}
               textColor="white"
-              onClick={() => {
-                window.location.href = "/login";
-              }}
+              onClick={handleClick}
             >
               Login to TUNES
             </Button>
