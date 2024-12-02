@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import AppNavbar from "./AppNavbar";
 import { Container, Box, Flex, Text, Skeleton } from "@chakra-ui/react";
 import { Row, Col } from "react-bootstrap";
-import NotFound from "../../NotFound";
+import NotFound from "../../LandingPage";
 
 const SearchProfile = () => {
   const [userData, setUserData] = useState(null);
