@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
-import NotFound from "./LandingPage";
+import NotFound from "./NotFound";
 import LandingPage from "./LandingPage";
 import SearchHome from "./SearchHome";
 import About from "./About";
@@ -20,6 +20,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
@@ -32,7 +33,7 @@ const App = () => {
         <Route path="/:email" element={<Home />} />
         <Route path="/:email/search" element={<SearchHome />} />
         <Route path="/unf" element={<UserNotFound />} />
-        <Route path="*" element={<LandingPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
