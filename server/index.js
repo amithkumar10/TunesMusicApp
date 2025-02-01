@@ -39,6 +39,30 @@ app.use(cookieParser());
 
 const secret = "secret";
 
+const keepAlive = () => {
+  const appUrl = "https://tunesmusicapp.onrender.com"; // Replace with your actual URL
+
+  axios
+    .get(appUrl)
+    .then((response) => {
+      console.log(`Pinged ${appUrl} successfully.`);
+    })
+    .catch((error) => {
+      console.log(`Error pinging the server: ${error.message}`);
+    });
+};
+
+// Start the keep-alive function on server start
+const startKeepAlive = () => {
+  keepAlive(); // Send an initial ping
+
+  // Set the function to run every 14 minutes (840 seconds)
+  setInterval(keepAlive, 840 * 1000); // 840 seconds = 14 minutes
+};
+
+// Call the startKeepAlive function once the server is running
+startKeepAlive();
+
 // REGISTER ROUTE
 app.post("/register", (req, res) => {
   const { name, email, password } = req.body;
