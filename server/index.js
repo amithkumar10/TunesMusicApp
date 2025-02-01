@@ -8,6 +8,7 @@ import GenreModel from "./models/genre.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import axios from "axios";
 
 // CONNECTING TO DATABASE
 mongoose
