@@ -38,7 +38,7 @@ const Genre = () => {
       setIsLoading(true); // Set loading to true when fetching starts
       try {
         const response = await fetch(
-          `https://tunesmusicapp.onrender.com/api/songs?genre=${genreName}`
+          `https://tunesmusicapp.onrender.com/songs?genre=${genreName}`
         );
         const data = await response.json();
         setSongs(data); // Adjust according to your API response structure

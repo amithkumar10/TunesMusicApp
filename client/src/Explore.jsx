@@ -32,7 +32,7 @@ const Explore = () => {
       >
         <FilterCharts />
         <FilterArtists />
-        {/* <FilteredGenres /> */}
+        <FilteredGenres />
       </Box>
       <Footer />
     </>
