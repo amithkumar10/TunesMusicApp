@@ -39,7 +39,7 @@ const Genres = () => {
 
         const data = await response.json();
         console.log(data);
-        setGenres(data); // Fetch only the first 12 genres
+        setGenres(data.data); // Fetch only the first 12 genres
       } catch (error) {
         console.error("Error fetching genres:", error);
       } finally {
