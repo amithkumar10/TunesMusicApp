@@ -36,8 +36,9 @@ const Genres = () => {
         const response = await fetch(
           "https://tunesmusicapp.onrender.com/genres"
         );
-        console.log(response);
+
         const data = await response.json();
+        console.log(data);
         setGenres(data); // Fetch only the first 12 genres
       } catch (error) {
         console.error("Error fetching genres:", error);
